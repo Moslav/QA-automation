@@ -1,5 +1,4 @@
-log/
-target/
 .idea/
+target/
+out/
 *.iml
-*.iws

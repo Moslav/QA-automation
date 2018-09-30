@@ -2,6 +2,7 @@ package onliner.tests;
 
 import static org.testng.Assert.*;
 import framework.BrowserFactory;
+import framework.Wait;
 import onliner.form.LoginPage;
 import onliner.form.MainPage;
 import onliner.form.PageFromPopularTopics;
@@ -17,10 +18,11 @@ public class OnlinerTest {
     private static String username_login;
     private static String password_login;
 
-    @Parameters({"username","password","browser"})
+    @Parameters({"username","password"})
     @BeforeTest
-    public static void setup(String username, String password, String browser){
-        driver = BrowserFactory.getDriver(browser);
+    public static void setup(String username, String password){
+        driver = BrowserFactory.getDriver();
+        new Wait(driver).implicitWait();
         username_login = username;
         password_login = password;
     }
@@ -35,7 +37,7 @@ public class OnlinerTest {
         loginPage.waitPicture();
         assertEquals(mainPage.returnNameLoggedUser(), mainPage.getNameUserOnPage());
         mainPage.scrollToElementAndClick(mainPage.getListPopularTopicsAndChooseRandom());
-        assertEquals(pageFromPopularTopics.getNameTopic().getText(), mainPage.getValueOfSelectedTopicText());
+        assertEquals(pageFromPopularTopics.getNameTopic(), mainPage.getValueOfSelectedTopicText());
         mainPage.returnToMainPage();
         mainPage.findingOpinionsAndWritingToCsvFile();
         mainPage.logOut();
